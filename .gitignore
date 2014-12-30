@@ -1,3 +1,6 @@
+offline/
+output/
+
 *.gem
 *.rbc
 /.config
