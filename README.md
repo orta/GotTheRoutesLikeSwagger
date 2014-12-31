@@ -101,3 +101,5 @@ Currently generates header files like so:
 - (NSURLRequest *)createPartnerShowImagesRepositionWithID:(NSString *)partnerShowIDimageIds:(NSArray *)imageIds;
 @end
 ```
+
+It neatly handles optional parameters by offering multiple versions of the same NSURLRequest, one with only required, and one with all the options. So if you rarely have to deal with some obscure option it can dissapear away.
