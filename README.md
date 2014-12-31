@@ -1,12 +1,16 @@
-GotTheMovesLikeSwagger
+You've got the routes like Swagger.
 ======================
 
-It's not a boring name. Ruby app to take a Swagger API and generate NSURLRequests.
+Ruby app to take a Swagger API and generate NSURLRequests.
+Currently very rough, but you can see the names for functions in the NSURLRequest Router.
 
-Currently very rough, but you can see the names for functions in the NSURLRequest Router. 
+``` sh
+# usage
+ruby routes-like.rb [swagger url] [authentication token]
+```
 
 ```
-swagger-grabber · (master) ⟩ ruby moves-like.rb
+swagger-grabber · (master) ⟩ ruby routes-like.rb
 getAccessControls
 removeAccessToken
 getAdmins

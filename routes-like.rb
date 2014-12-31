@@ -12,3 +12,4 @@ grabber.grab
 router = ObjCRouter.new(grabber)
 router.route
 
+ ap grabber.raw if ARGV[0] == "raw"

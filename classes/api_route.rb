@@ -1,8 +1,10 @@
 class APIRoute
-  attr_accessor :route, :operations
+  attr_accessor :path, :operations, :api
   
-  def initialize(hash)
-    @route = hash["path"]
+  def initialize(hash, api)
+    @path = hash["path"]
+    @api = api
+    
     if hash["operations"] 
       @operations = hash["operations"].map do |op|
         APIOperation.new(op, self)
@@ -11,11 +13,11 @@ class APIRoute
   end
   
   def hash
-    @route.hash
+    @path.hash
   end
   
   def eql?(other)
-    @route == other.route
+    @path == other.path
   end
   
 end
