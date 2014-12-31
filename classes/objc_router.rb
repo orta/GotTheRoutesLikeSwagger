@@ -19,14 +19,14 @@ class ObjCRouter
             method_params = ends.map(&:as_objc_route_param).join(" ")
 
             content += "\n/// #{op.summary} \n"
-            content += op.parameters.map do |param|
+            content += ends.map do |param|
               "/// @param #{param.name} #{param.description}\n" 
             end.join("")
             
             content += "/// @return URLRequest for #{route.path}\n\n"
             
             unless op.has_no_required_params
-              content += "+ (NSURLRequest *)" + op.selector_base + "" + method_params + ";\n"
+              content += "- (NSURLRequest *)" + op.selector_base + "" + method_params.upcase_first_letter + ";\n"
             else
               spacer =  method_params.strip.length > 0 ? " " : ""
               content += "- (NSURLRequest *)" + op.selector_base + spacer + method_params + ";\n"
