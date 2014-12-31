@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     awesome_print (1.2.0)
+    mustache (0.99.7)
     nap (0.8.0)
 
 PLATFORMS
@@ -9,4 +10,5 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  mustache
   nap

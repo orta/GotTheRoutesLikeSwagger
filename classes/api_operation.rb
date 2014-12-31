@@ -31,6 +31,7 @@ class APIOperation
            .strip
            .remove_hanging_words
            .lowercase_after_spaces
+           .ending_id_is_caps
     
     action = case method
       when "GET"
@@ -57,5 +58,12 @@ class APIOperation
     else
       [required, optionals]
     end
-  end 
+  end
+  
+  def has_no_required_params
+    useful = parameters.select { |p| p.paramType != "path" }
+    required = useful.select { |u| u.required == true }
+    required.count == 0
+  end
+  
 end

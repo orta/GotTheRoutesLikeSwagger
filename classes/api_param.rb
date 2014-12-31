@@ -22,11 +22,12 @@ class APIParam
   end
   
   def as_objc_route_param
-    camelName = name.camel_case.lowercase_first_letter
+    camelName = name.camel_case.lowercase_first_letter.ending_id_is_caps
     "#{camelName}:(#{type_to_objc_param(type)})#{camelName}"
   end
   
   def type_to_objc (type)
+    return "NSArray" if (type.start_with? "[") 
     { 
       "enum" => "NSString",
       "date" => "SWGDate",
@@ -46,6 +47,8 @@ class APIParam
   end
 
   def type_to_objc_param (type)
+    return "NSArray *" if (type.start_with? "[") 
+    
     { 
       "enum" => "NSString *",
       "date" => "NSDate *",

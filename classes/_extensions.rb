@@ -25,7 +25,12 @@ class String
   end
   
   def lowercase_first_letter
-    self.gsub(/[A-Z]/) { |s| s.downcase }
+    self.gsub(/^[A-Z]/) { |s| s.downcase }
   end
+  
+  def ending_id_is_caps
+    self.gsub(/Id$/) { |s| s.upcase }
+  end
+  
   
 end
