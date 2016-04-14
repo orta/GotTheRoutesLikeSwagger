@@ -1,34 +1,34 @@
 class APIParam
-  attr_accessor :allowMultiple, :name, :description, :type, :required, :format, :paramType, :operation, :enum, :defaultValue, :optional
-  
+  attr_accessor :allowMultiple, :name, :description, :type, :required, :format, :paramType, :operation, :enum, :defaultValue, :optional, :items, :minimum, :maximum
+
   def initialize(*h, operation)
     if h.length == 1 && h.first.is_a?(Hash)
       h.first.each { |k, v| send("#{k}=", v) }
     end
-    
+
     @operation = operation
-    
+
     # if type != "query"
     #   puts "op: #{operation} query = #{type}"
     # end
   end
-  
+
   def hash
     @route.hash
   end
-  
+
   def eql?(other)
     @route == other.route
   end
-  
+
   def as_objc_route_param
     camelName = name.camel_case.lowercase_first_letter.ending_id_is_caps
     "#{camelName}:(#{type_to_objc_param(type)})#{camelName}"
   end
-  
+
   def type_to_objc (type)
-    return "NSArray" if (type.start_with? "[") 
-    { 
+    return "NSArray" if (type.start_with? "[")
+    {
       "enum" => "NSString",
       "date" => "SWGDate",
       "Date" => "SWGDate",
@@ -47,9 +47,9 @@ class APIParam
   end
 
   def type_to_objc_param (type)
-    return "NSArray *" if (type.start_with? "[") 
-    
-    { 
+    return "NSArray *" if (type.start_with? "[")
+
+    {
       "enum" => "NSString *",
       "date" => "NSDate *",
       "Date" => "NSDate *",
@@ -66,5 +66,5 @@ class APIParam
       "object" => "id "
       }[type]
   end
-  
+
 end

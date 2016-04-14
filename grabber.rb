@@ -5,14 +5,18 @@ require 'json'
 class Grabber
   def grab()
 
-    root =  ARGV[0] || "https://api.artsy.net/api/v1/swagger_doc"
+    # bundle exec ruby routes-like.rb https://api.artsy.net/api/v1/swagger_doc [token]
 
-    # temp token, will last a week
-    token = ARGV[1] || "JvTPWe4WsQO-xqX6Bts49kAFbpDMRfxHtzyVZOdgDeRPYIpvqhke4GQZxHXJh3zTBd_TjZ7DTLfumZrTfS8iVIx9l9U3PVmTaTYOkiyPjVT-BozVkpXWTSQZIKYybNoavnv2wWNVmgCVqorndmD_xQUVoUMFU-IWrezae6XU0BPQBUhUHO8WTWkBVu9m0CCCm0jCd_mEWxKp8KUiEqBuwJai6RGGiZgFzBpFwpUuQQ4="
-    redownload = false
-    get_new_apis = false
-    
-    if get_new_apis 
+    root =  ARGV[0] || "https://api.artsy.net/api/v1/swagger_doc"
+    token = ARGV[1] || "[token]"
+
+    redownload = true
+    get_new_apis = true
+
+    Dir.mkdir "offline" unless Dir.exists? "offline/"
+    Dir.mkdir "output" unless Dir.exists? "output/"
+
+    if get_new_apis
       puts "Downloading all routes"
       get_all_apis =  REST.get(root, {})
       if get_all_apis.ok?
@@ -27,18 +31,18 @@ class Grabber
 
     @all = []
     @raw = []
-        
+
     @api_routes.each do |api|
       route_apis =[]
       new_route = root + api["path"].sub("{format}", "json")
       local_path = "offline/" + api["path"]
-      
+
       if File.exists? local_path
         response = JSON.parse( File.read(local_path) )
         route_apis = response
-        
+
       elsif !redownload
-        
+
       else
         puts "Downloading all #{new_route}"
         endpoints_request =  REST.get(new_route, {})
@@ -47,7 +51,7 @@ class Grabber
           File.write( local_path, endpoints_request.body)
         end
       end
-      
+
       if route_apis and route_apis.is_a? Hash
         group = APIGroup.new(route_apis)
         @all << group
@@ -57,13 +61,13 @@ class Grabber
     @all
     @raw.flatten!
   end
-  
+
   def all
     @all.first != nil ? @all : []
   end
-  
+
   def raw
     @raw
   end
-  
+
 end
